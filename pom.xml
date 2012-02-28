@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>or1g.triple_brain</groupId>
+        <groupId>org.triple_brain</groupId>
         <artifactId>parent-pom</artifactId>
         <version>1-SNAPSHOT</version>
     </parent>
@@ -31,10 +31,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mycila</groupId>
-            <artifactId>mycila-jdbc</artifactId>
-            <version>1.6.ga</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.18</version>
         </dependency>
+
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -84,12 +85,6 @@
             <groupId>com.mycila</groupId>
             <artifactId>mycila-guice</artifactId>
             <version>2.2.ga</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ovea.tadjin.module</groupId>
-            <artifactId>tadjin-sql-test</artifactId>
-            <version>1.2.ga</version>
             <scope>test</scope>
         </dependency>
         <dependency>
