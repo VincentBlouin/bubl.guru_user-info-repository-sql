@@ -3,6 +3,7 @@ package org.triple_brain.module.repository_sql;
 import org.junit.Test;
 import org.triple_brain.module.model.User;
 import org.triple_brain.module.repository.user.user.ExistingUserException;
+import org.triple_brain.module.repository.user.user.NonExistingUserException;
 
 import javax.inject.Inject;
 import java.sql.ResultSet;
@@ -69,6 +70,35 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         assertTrue(loadedUser.hasPassword("secret"));
     }
 
+    @Test
+    public void can_find_user_by_email() {
+        User user = createAUser();
+        userRepository.save(user);
+        assertThat(userRepository.findByEmail(user.email()), is(user));
+    }
+
+    @Test
+    public void try_to_find_none_existing_user_by_email_throw_and_Exception() {
+        try {
+            userRepository.findByEmail("non_existing@example.org");
+            fail();
+        } catch (NonExistingUserException e) {
+            assertThat(e.getMessage(), is("User not found: non_existing@example.org"));
+        }
+
+        try {
+            userRepository.findByEmail("");
+            fail();
+        } catch (NonExistingUserException e) {
+            assertThat(e.getMessage(), is("User not found: "));
+        }
+    }
+
+    private User createAUser(){
+        User user = User.withEmail("a_user@triple_brain.org");
+        return user;
+    }
+    
     final List<User> users() throws Exception{
         ResultSet resultSet = preparedStatement("SELECT * FROM por_user").executeQuery();
         List<User> users = new ArrayList<User>();

@@ -4,13 +4,16 @@ package org.triple_brain.module.repository_sql;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.triple_brain.module.model.User;
+import org.triple_brain.module.repository.user.user.ExistingUserException;
 import org.triple_brain.module.repository.user.user.NonExistingUserException;
 import org.triple_brain.module.repository.user.user.UserRepository;
-import org.triple_brain.module.repository.user.user.ExistingUserException;
 
 import java.lang.reflect.Field;
-import java.sql.*;
-import java.util.NoSuchElementException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import static org.triple_brain.module.model.json.UserJSONFields.*;
 import static org.triple_brain.module.repository_sql.SQLConnection.preparedStatement;
 
@@ -90,10 +93,10 @@ public class SQLUserRepository implements UserRepository {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, email.trim().toLowerCase());
             ResultSet rs = stm.executeQuery();
-            rs.next();
+            if(!rs.next()){
+                throw new NonExistingUserException(email);
+            }
             return userFromResultSet(rs);
-        } catch (NoSuchElementException e) {
-            throw new NonExistingUserException(email);
         } catch(SQLException ex){
             throw new SQLConnectionException(ex);
         }
