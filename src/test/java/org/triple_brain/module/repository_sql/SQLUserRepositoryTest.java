@@ -28,7 +28,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         ResultSet resultSet = preparedStatement("SELECT id, uuid FROM por_user").executeQuery();
         assertFalse(resultSet.next());
 
-        User user = User.withEmail("roger.lamothe@me.com").password("patate");
+        User user = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com").password("patate");
         userRepository.save(user);
 
         resultSet = preparedStatement("SELECT id, uuid FROM por_user").executeQuery();
@@ -37,8 +37,8 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
 
     @Test
     public void try_to_save_twice_a_user_with_same_email_is_not_possible() throws Exception{
-        User user_1 = User.withEmail("roger.lamothe@me.com");
-        User user_2 = User.withEmail("roger.lamothe@me.com");
+        User user_1 = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com");
+        User user_2 = User.withUsernameAndEmail("roger_lamothe_2", "roger.lamothe@me.com");
 
         assertThat(users().size(), is(0));
 
@@ -48,14 +48,31 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
             userRepository.save(user_2);
             fail();
         } catch (ExistingUserException e) {
-            assertThat(e.getMessage(), is("A user already exist with email: roger.lamothe@me.com"));
+            assertThat(e.getMessage(), is("A user already exist with username or email: roger.lamothe@me.com"));
+        }
+    }
+
+
+    @Test
+    public void try_to_save_twice_a_user_with_same_username_is_not_possible() throws Exception{
+        User user_1 = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com");
+        User user_2 = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe2@me.com");
+
+        assertThat(users().size(), is(0));
+
+        userRepository.save(user_1);
+
+        try {
+            userRepository.save(user_2);
+            fail();
+        } catch (ExistingUserException e) {
+            assertThat(e.getMessage(), is("A user already exist with username or email: roger_lamothe"));
         }
     }
 
     @Test
     public void user_fields_are_well_saved() {
-        User user = User.withEmail("roger@me.com")
-                .firstName("Roger").lastName("Lamothe")
+        User user = User.withUsernameAndEmail("roger_lamothe", "roger@me.com")
                 .password("secret");
         userRepository.save(user);
 
@@ -64,9 +81,6 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         assertThat(loadedUser.id(), is(user.id()));
         assertThat(loadedUser.email(), is(user.email()));
         assertThat(userRepository.getInternalId(loadedUser), is(userRepository.getInternalId(user)));
-
-        assertThat(loadedUser.firstName(), is(user.firstName()));
-        assertThat(loadedUser.lastName(), is(user.lastName()));
         assertTrue(loadedUser.hasPassword("secret"));
     }
 
@@ -94,8 +108,32 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         }
     }
 
+    @Test
+    public void can_find_user_by_user_name() {
+        User user = createAUser();
+        userRepository.save(user);
+        assertThat(userRepository.findByUsername(user.username()), is(user));
+    }
+
+    @Test
+    public void try_to_find_none_existing_user_by_username_throw_and_Exception() {
+        try {
+            userRepository.findByUsername("non_existing_user_name");
+            fail();
+        } catch (NonExistingUserException e) {
+            assertThat(e.getMessage(), is("User not found: non_existing_user_name"));
+        }
+
+        try {
+            userRepository.findByUsername("");
+            fail();
+        } catch (NonExistingUserException e) {
+            assertThat(e.getMessage(), is("User not found: "));
+        }
+    }
+
     private User createAUser(){
-        User user = User.withEmail("a_user@triple_brain.org");
+        User user = User.withUsernameAndEmail("a_user", "a_user@triple_brain.org");
         return user;
     }
     

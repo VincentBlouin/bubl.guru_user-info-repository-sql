@@ -29,19 +29,21 @@ public class SQLUserRepository implements UserRepository {
             if(emailExists(user.email())){
                 throw new ExistingUserException(user.email());
             }
+            if(usernameExists(user.username())){
+                throw new ExistingUserException(user.username());
+            }
             // If no user found, this is clearly a new user
-            String query = "insert into por_user(uuid, salt, email, passwordHash, firstname, lastname, creationTime, updateTime) values(?, ?, ?, ?, ?, ?, ?, ?);";
+            String query = "insert into por_user(uuid, salt, username, email, passwordHash, creationTime, updateTime) values(?, ?, ?, ?, ?, ?, ?);";
             Timestamp now = new Timestamp(System.currentTimeMillis());
             PreparedStatement stm = preparedStatement(query);
             try{
                 stm.setString(1, user.id());
                 stm.setString(2, user.salt());
-                stm.setString(3, user.email());
-                stm.setString(4, user.passwordHash());
-                stm.setString(5, user.firstName());
-                stm.setString(6, user.lastName());
+                stm.setString(3, user.username());
+                stm.setString(4, user.email());
+                stm.setString(5, user.passwordHash());
+                stm.setTimestamp(6, now);
                 stm.setTimestamp(7, now);
-                stm.setTimestamp(8, now);
                 stm.executeUpdate();
                 ResultSet resultSet = stm.getGeneratedKeys();
                 resultSet.next();
@@ -52,15 +54,13 @@ public class SQLUserRepository implements UserRepository {
             }
         } else {
             // If a user is found, and if it comes from DB, we can update all its fields
-            String query = "UPDATE por_user SET salt = ?, passwordHash = ?, locale = ?, firstname = ?, lastname = ?, updateTime = ? WHERE uuid = ?";
+            String query = "UPDATE por_user SET salt = ?, passwordHash = ?, updateTime = ? WHERE uuid = ?";
             PreparedStatement stm = preparedStatement(query);
             try{
                 stm.setString(1, user.salt());
                 stm.setString(2, user.passwordHash());
-                stm.setString(4, user.firstName());
-                stm.setString(5, user.lastName());
-                stm.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-                stm.setString(7, user.id());
+                stm.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+                stm.setString(4, user.id());
                 stm.executeUpdate();
             }
             catch(SQLException ex){
@@ -71,7 +71,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findById(String id) throws NonExistingUserException {
-        String query = "SELECT id as internalID, email, uuid as id, salt, passwordHash, firstname, lastname FROM por_user WHERE uuid = ?";
+        String query = "SELECT id as internalID, username, email, uuid as id, salt, passwordHash FROM por_user WHERE uuid = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, id);
@@ -87,8 +87,24 @@ public class SQLUserRepository implements UserRepository {
     }
 
     @Override
+    public User findByUsername(String username) throws NonExistingUserException {
+        String query = "SELECT id as internalId, username, email, uuid as id, salt, passwordHash FROM por_user WHERE username = ?";
+        try {
+            PreparedStatement stm = preparedStatement(query);
+            stm.setString(1, username.trim().toLowerCase());
+            ResultSet rs = stm.executeQuery();
+            if(!rs.next()){
+                throw new NonExistingUserException(username);
+            }
+            return userFromResultSet(rs);
+        } catch(SQLException ex){
+            throw new SQLConnectionException(ex);
+        }
+    }
+
+    @Override
     public User findByEmail(String email) throws NonExistingUserException {
-        String query = "SELECT id as internalId, email, uuid as id, salt, passwordHash, firstname, lastname FROM por_user WHERE email = ?";
+        String query = "SELECT id as internalId, username, email, uuid as id, salt, passwordHash FROM por_user WHERE email = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, email.trim().toLowerCase());
@@ -98,6 +114,21 @@ public class SQLUserRepository implements UserRepository {
             }
             return userFromResultSet(rs);
         } catch(SQLException ex){
+            throw new SQLConnectionException(ex);
+        }
+    }
+
+    @Override
+    public boolean usernameExists(String username) {
+        String query = "SELECT COUNT(username) FROM por_user WHERE username = ?";
+        try{
+            PreparedStatement stm = preparedStatement(query);
+            stm.setString(1, username.trim().toLowerCase());
+            ResultSet resultSet = stm.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1) >= 1;
+
+        }catch(SQLException ex){
             throw new SQLConnectionException(ex);
         }
     }
@@ -119,10 +150,7 @@ public class SQLUserRepository implements UserRepository {
 
     protected User userFromResultSet(ResultSet rs){
         try{
-            User user = User.withEmail(rs.getString("email"))
-                    .firstName(rs.getString("firstname"))
-                    .lastName(rs.getString("lastname"));
-
+            User user = User.withUsernameAndEmail(rs.getString("username"), rs.getString("email"));
             setUserInternalId(user, rs.getLong("internalId"));
             setUUId(user, rs.getString("id"));
             setSalt(user, rs.getString("salt"));
@@ -142,9 +170,8 @@ public class SQLUserRepository implements UserRepository {
     private JSONObject toJson(User user) throws JSONException {
         JSONObject jsonUser = new JSONObject();
         jsonUser.put(ID, user.id());
+        jsonUser.put(USER_NAME, user.username());
         jsonUser.put(EMAIL, user.email());
-        jsonUser.put(FIRST_NAME, user.firstName());
-        jsonUser.put(LAST_NAME, user.lastName());
         return jsonUser;
     }
 
