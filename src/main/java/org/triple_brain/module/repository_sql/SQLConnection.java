@@ -20,6 +20,28 @@ public class SQLConnection {
         connection().close();
     }
 
+    public static void clearDatabases()throws SQLException{
+        String query = "DROP TABLE IF EXISTS por_user;";
+        preparedStatement(query).executeUpdate();
+    }
+
+    public static void createTables() throws SQLException{
+        String query = "CREATE TABLE por_user (\n" +
+                "    id           BIGINT    PRIMARY KEY AUTO_INCREMENT,\n" +
+                "    creationTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+                "    updateTime   TIMESTAMP NOT NULL,\n" +
+                "\n" +
+                "    uuid   VARCHAR(36)   UNIQUE NOT NULL,\n" +
+                "    username  VARCHAR(50)   UNIQUE NOT NULL,\n" +
+                "    email  VARCHAR(50)   UNIQUE NOT NULL,\n" +
+                "\n" +
+                "    salt                 VARCHAR(36),\n" +
+                "    passwordHash         VARCHAR(100)\n" +
+                ");";
+        preparedStatement(query).executeUpdate();
+    }
+
+
     private static Connection connection(){
         try{
             if(connection == null || connection.isClosed()){
