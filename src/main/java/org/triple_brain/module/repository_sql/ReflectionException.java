@@ -1,7 +1,7 @@
 package org.triple_brain.module.repository_sql;
 
 /**
- * @author Vincent Blouin
+ * Copyright Mozilla Public License 1.1
  */
 public class ReflectionException extends RuntimeException{
     public ReflectionException(Exception ex) {

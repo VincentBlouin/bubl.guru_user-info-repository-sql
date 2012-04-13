@@ -18,7 +18,7 @@ import static org.triple_brain.module.model.json.UserJSONFields.*;
 import static org.triple_brain.module.repository_sql.SQLConnection.preparedStatement;
 
 /**
- * @author Vincent Blouin
+ * Copyright Mozilla Public License 1.1
  */
 public class SQLUserRepository implements UserRepository {
 

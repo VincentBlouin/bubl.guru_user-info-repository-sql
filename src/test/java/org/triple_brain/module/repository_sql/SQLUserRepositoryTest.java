@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 import static org.triple_brain.module.repository_sql.SQLConnection.preparedStatement;
 
 /**
- * @author Vincent Blouin
+ * Copyright Mozilla Public License 1.1
  */
 public class SQLUserRepositoryTest extends AbstractSqlTest{
 

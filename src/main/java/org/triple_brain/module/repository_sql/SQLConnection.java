@@ -3,7 +3,7 @@ package org.triple_brain.module.repository_sql;
 import java.sql.*;
 
 /**
- * @author Vincent Blouin
+ * Copyright Mozilla Public License 1.1
  */
 public class SQLConnection {
     static Connection connection;
