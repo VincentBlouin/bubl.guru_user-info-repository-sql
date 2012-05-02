@@ -7,6 +7,11 @@ import java.sql.*;
  */
 public class SQLConnection {
     static Connection connection;
+    public static final String DRIVER_CLASS_PATH = "com.mysql.jdbc.Driver";
+    public static final String DATABASES_PATH = "jdbc:mysql://127.0.0.1/";
+    public static final String TRIPLE_BRAIN_DATABASE_NAME = "triple_brain";
+    public static final String USERNAME = "triple_brain";
+    public static final String PASSWORD = "boraptop34";
 
     public static PreparedStatement preparedStatement(String query){
         try{
@@ -55,10 +60,10 @@ public class SQLConnection {
     
     private static Connection createConnection(){
         try{
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName(DRIVER_CLASS_PATH).newInstance();
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1/triple_brain",
-                    "triple_brain", "boraptop34");
+                    DATABASES_PATH + TRIPLE_BRAIN_DATABASE_NAME,
+                    USERNAME, PASSWORD);
             return connection;
         }catch(ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException ex){
             throw new SQLConnectionException(ex);
