@@ -2,8 +2,8 @@ package org.triple_brain.module.repository_sql;
 
 import org.junit.Test;
 import org.triple_brain.module.model.User;
-import org.triple_brain.module.repository.user.user.ExistingUserException;
-import org.triple_brain.module.repository.user.user.NonExistingUserException;
+import org.triple_brain.module.repository.user.ExistingUserException;
+import org.triple_brain.module.repository.user.NonExistingUserException;
 
 import javax.inject.Inject;
 import java.sql.ResultSet;

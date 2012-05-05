@@ -1,13 +1,13 @@
 package org.triple_brain.module.repository_sql;
 
 import com.google.inject.Binder;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Stage;
-import com.google.inject.util.Modules;
-import com.mycila.inject.jsr250.Jsr250;
 import org.junit.After;
 import org.junit.Before;
-import org.triple_brain.module.repository.user.user.UserRepository;
+import org.junit.BeforeClass;
+import org.triple_brain.module.repository.user.UserRepository;
 
 import java.sql.SQLException;
 
@@ -18,9 +18,15 @@ import static org.triple_brain.module.repository_sql.SQLConnection.*;
  */
 public class AbstractSqlTest implements Module {
 
+    @BeforeClass
+    public static void beforeClass(){
+
+    }
+
     @Before
     public final void before() throws SQLException {
-        Jsr250.createInjector(Stage.PRODUCTION, Modules.override(new SQLModule()).with(this)).injectMembers(this);
+        Injector injector = Guice.createInjector(new SQLTestModule());
+        injector.injectMembers(this);
         clearDatabases();
         createTables();
     }

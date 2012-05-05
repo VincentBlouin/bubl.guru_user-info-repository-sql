@@ -4,9 +4,9 @@ package org.triple_brain.module.repository_sql;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.triple_brain.module.model.User;
-import org.triple_brain.module.repository.user.user.ExistingUserException;
-import org.triple_brain.module.repository.user.user.NonExistingUserException;
-import org.triple_brain.module.repository.user.user.UserRepository;
+import org.triple_brain.module.repository.user.ExistingUserException;
+import org.triple_brain.module.repository.user.NonExistingUserException;
+import org.triple_brain.module.repository.user.UserRepository;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;

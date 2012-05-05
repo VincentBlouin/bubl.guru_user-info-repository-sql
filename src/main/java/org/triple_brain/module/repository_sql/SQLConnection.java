@@ -1,17 +1,23 @@
 package org.triple_brain.module.repository_sql;
 
-import java.sql.*;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Copyright Mozilla Public License 1.1
  */
 public class SQLConnection {
+
     static Connection connection;
-    public static final String DRIVER_CLASS_PATH = "com.mysql.jdbc.Driver";
-    public static final String DATABASES_PATH = "jdbc:mysql://127.0.0.1/";
-    public static final String TRIPLE_BRAIN_DATABASE_NAME = "triple_brain";
-    public static final String USERNAME = "triple_brain";
-    public static final String PASSWORD = "boraptop34";
+
+    @Inject
+    @Named("nonRdfDb")
+    private static DataSource dataSource;
 
     public static PreparedStatement preparedStatement(String query){
         try{
@@ -60,14 +66,9 @@ public class SQLConnection {
     
     private static Connection createConnection(){
         try{
-            Class.forName(DRIVER_CLASS_PATH).newInstance();
-            connection = DriverManager.getConnection(
-                    DATABASES_PATH + TRIPLE_BRAIN_DATABASE_NAME,
-                    USERNAME, PASSWORD);
-            return connection;
-        }catch(ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException ex){
+            return dataSource.getConnection();
+        }catch(SQLException ex){
             throw new SQLConnectionException(ex);
         }
     }
-  
 }
