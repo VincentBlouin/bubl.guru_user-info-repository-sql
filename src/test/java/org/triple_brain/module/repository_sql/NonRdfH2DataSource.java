@@ -13,7 +13,7 @@ public class NonRdfH2DataSource extends BasicDataSource {
     public NonRdfH2DataSource(){
         super();
         setDriverClassName("org.h2.Driver");
-        setUrl("jdbc:h2:mem:test");
+        setUrl("jdbc:h2:mem:triple_brain");
         setUsername("sa");
     }
 
