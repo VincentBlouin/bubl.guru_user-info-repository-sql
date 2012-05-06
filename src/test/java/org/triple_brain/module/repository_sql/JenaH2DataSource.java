@@ -11,7 +11,7 @@ public class JenaH2DataSource extends JenaFriendlyDataSource {
     public JenaH2DataSource(){
         super();
         setDriverClassName("org.h2.Driver");
-        setUrl("jdbc:h2:mem:jena_database");
+        setUrl("jdbc:h2:mem:jena_triple_brain");
         setUsername("sa");
         setDatabaseTypeName("HSQLDB");
     }
