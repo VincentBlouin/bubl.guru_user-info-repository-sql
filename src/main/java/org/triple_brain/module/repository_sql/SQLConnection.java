@@ -44,7 +44,7 @@ public class SQLConnection {
                 "\n" +
                 "    uuid   VARCHAR(36)   UNIQUE NOT NULL,\n" +
                 "    username  VARCHAR(50)   UNIQUE NOT NULL,\n" +
-                "    email  VARCHAR(50)   UNIQUE NOT NULL,\n" +
+                "    email  VARCHAR(255)   UNIQUE NOT NULL,\n" +
                 "\n" +
                 "    salt                 VARCHAR(36),\n" +
                 "    passwordHash         VARCHAR(100)\n" +
