@@ -21,14 +21,14 @@ public class SQLConnection {
 
     public static PreparedStatement preparedStatement(String query){
         try{
-            return connection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            return staleConnectionProofGetter().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         }catch (SQLException ex){
             throw new SQLConnectionException(ex);
         }
     }
 
     public static void closeConnection() throws SQLException{
-        connection().close();
+        staleConnectionProofGetter().close();
     }
 
     public static void clearDatabases()throws SQLException{
@@ -53,15 +53,16 @@ public class SQLConnection {
     }
 
 
-    private static Connection connection(){
+    private static Connection staleConnectionProofGetter(){
         try{
             if(connection == null || connection.isClosed()){
                 connection = createConnection();
             }
-            return connection;
         }catch(SQLException ex){
-            throw new SQLConnectionException(ex);
+            connection = createConnection();
+            ex.printStackTrace();
         }
+        return connection;
     }
     
     private static Connection createConnection(){
