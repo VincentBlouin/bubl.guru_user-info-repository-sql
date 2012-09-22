@@ -119,7 +119,7 @@ public class SQLUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean usernameExists(String username) {
+    public Boolean usernameExists(String username) {
         String query = "SELECT COUNT(username) FROM por_user WHERE username = ?";
         try{
             PreparedStatement stm = preparedStatement(query);
@@ -134,7 +134,7 @@ public class SQLUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean emailExists(String email) {
+    public Boolean emailExists(String email) {
         String query = "SELECT COUNT(email) FROM por_user WHERE email = ?";
         try{
             PreparedStatement stm = preparedStatement(query);
