@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import static org.triple_brain.module.model.json.UserJSONFields.*;
+import static org.triple_brain.module.model.json.UserJsonFields.*;
 import static org.triple_brain.module.repository_sql.SQLConnection.preparedStatement;
 
 /**
