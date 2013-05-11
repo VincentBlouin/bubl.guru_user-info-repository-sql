@@ -31,12 +31,16 @@ public class SQLConnection {
         staleConnectionProofGetter().close();
     }
 
-    public static void clearDatabases()throws SQLException{
-        String query = "DROP TABLE IF EXISTS por_user;";
-        preparedStatement(query).executeUpdate();
+    public static void clearDatabases(){
+        try{
+            String query = "DROP TABLE IF EXISTS por_user;";
+            preparedStatement(query).executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void createTables() throws SQLException{
+    public static void createTables(){
         String query = "CREATE TABLE por_user (\n" +
                 "    id           BIGINT    PRIMARY KEY AUTO_INCREMENT,\n" +
                 "    creationTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
@@ -49,7 +53,11 @@ public class SQLConnection {
                 "    salt                 VARCHAR(36),\n" +
                 "    passwordHash         VARCHAR(100)\n" +
                 ");";
-        preparedStatement(query).executeUpdate();
+        try{
+            preparedStatement(query).executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
 
