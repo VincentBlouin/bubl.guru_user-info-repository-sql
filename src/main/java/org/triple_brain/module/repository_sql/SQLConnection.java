@@ -33,7 +33,7 @@ public class SQLConnection {
 
     public static void clearDatabases(){
         try{
-            String query = "DROP TABLE IF EXISTS por_user;";
+            String query = "DROP TABLE IF EXISTS member;";
             preparedStatement(query).executeUpdate();
         }catch(SQLException e){
             throw new RuntimeException(e);
@@ -41,7 +41,7 @@ public class SQLConnection {
     }
 
     public static void createTables(){
-        String query = "CREATE TABLE por_user (\n" +
+        String query = "CREATE TABLE member (\n" +
                 "    id           BIGINT    PRIMARY KEY AUTO_INCREMENT,\n" +
                 "    creationTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
                 "    updateTime   TIMESTAMP NOT NULL,\n" +

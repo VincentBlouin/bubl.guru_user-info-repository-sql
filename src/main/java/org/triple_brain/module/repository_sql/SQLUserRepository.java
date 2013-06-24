@@ -33,7 +33,7 @@ public class SQLUserRepository implements UserRepository {
                 throw new ExistingUserException(user.username());
             }
             // If no user found, this is clearly a new user
-            String query = "insert into por_user(uuid, salt, username, email, passwordHash, creationTime, updateTime) values(?, ?, ?, ?, ?, ?, ?);";
+            String query = "insert into member(uuid, salt, username, email, passwordHash, creationTime, updateTime) values(?, ?, ?, ?, ?, ?, ?);";
             Timestamp now = new Timestamp(System.currentTimeMillis());
             PreparedStatement stm = preparedStatement(query);
             try{
@@ -54,7 +54,7 @@ public class SQLUserRepository implements UserRepository {
             }
         } else {
             // If a user is found, and if it comes from DB, we can update all its fields
-            String query = "UPDATE por_user SET salt = ?, passwordHash = ?, updateTime = ? WHERE uuid = ?";
+            String query = "UPDATE member SET salt = ?, passwordHash = ?, updateTime = ? WHERE uuid = ?";
             PreparedStatement stm = preparedStatement(query);
             try{
                 stm.setString(1, user.salt());
@@ -71,7 +71,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findById(String id) throws NonExistingUserException {
-        String query = "SELECT id as internalID, username, email, uuid as id, salt, passwordHash FROM por_user WHERE uuid = ?";
+        String query = "SELECT id as internalID, username, email, uuid as id, salt, passwordHash FROM member WHERE uuid = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, id);
@@ -88,7 +88,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findByUsername(String username) throws NonExistingUserException {
-        String query = "SELECT id as internalId, username, email, uuid as id, salt, passwordHash FROM por_user WHERE username = ?";
+        String query = "SELECT id as internalId, username, email, uuid as id, salt, passwordHash FROM member WHERE username = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, username.trim().toLowerCase());
@@ -104,7 +104,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findByEmail(String email) throws NonExistingUserException {
-        String query = "SELECT id as internalId, username, email, uuid as id, salt, passwordHash FROM por_user WHERE email = ?";
+        String query = "SELECT id as internalId, username, email, uuid as id, salt, passwordHash FROM member WHERE email = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, email.trim().toLowerCase());
@@ -120,7 +120,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public Boolean usernameExists(String username) {
-        String query = "SELECT COUNT(username) FROM por_user WHERE username = ?";
+        String query = "SELECT COUNT(username) FROM member WHERE username = ?";
         try{
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, username.trim().toLowerCase());
@@ -135,7 +135,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public Boolean emailExists(String email) {
-        String query = "SELECT COUNT(email) FROM por_user WHERE email = ?";
+        String query = "SELECT COUNT(email) FROM member WHERE email = ?";
         try{
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, email.trim().toLowerCase());

@@ -25,13 +25,13 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
 
     @Test
     public void can_save_user() throws Exception{
-        ResultSet resultSet = preparedStatement("SELECT id, uuid FROM por_user").executeQuery();
+        ResultSet resultSet = preparedStatement("SELECT id, uuid FROM member").executeQuery();
         assertFalse(resultSet.next());
 
         User user = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com").password("patate");
         userRepository.save(user);
 
-        resultSet = preparedStatement("SELECT id, uuid FROM por_user").executeQuery();
+        resultSet = preparedStatement("SELECT id, uuid FROM member").executeQuery();
         assertTrue(resultSet.next());
     }
 
@@ -138,7 +138,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
     }
     
     final List<User> users() throws Exception{
-        ResultSet resultSet = preparedStatement("SELECT * FROM por_user").executeQuery();
+        ResultSet resultSet = preparedStatement("SELECT * FROM member").executeQuery();
         List<User> users = new ArrayList<User>();
         while(resultSet.next()){
             users.add(userRepository.userFromResultSet(resultSet));
