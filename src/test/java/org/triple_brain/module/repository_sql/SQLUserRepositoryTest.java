@@ -28,7 +28,11 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         ResultSet resultSet = preparedStatement("SELECT id, uuid FROM member").executeQuery();
         assertFalse(resultSet.next());
 
-        User user = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com").password("patate");
+        User user = User.withUsernameEmailAndLocales(
+                "roger_lamothe",
+                "roger.lamothe@me.com",
+                ""
+        ).password("patate");
         userRepository.save(user);
 
         resultSet = preparedStatement("SELECT id, uuid FROM member").executeQuery();
@@ -37,8 +41,16 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
 
     @Test
     public void try_to_save_twice_a_user_with_same_email_is_not_possible() throws Exception{
-        User user_1 = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com");
-        User user_2 = User.withUsernameAndEmail("roger_lamothe_2", "roger.lamothe@me.com");
+        User user_1 = User.withUsernameEmailAndLocales(
+                "roger_lamothe",
+                "roger.lamothe@me.com",
+                ""
+        );
+        User user_2 = User.withUsernameEmailAndLocales(
+                "roger_lamothe_2",
+                "roger.lamothe@me.com",
+                ""
+        );
 
         assertThat(users().size(), is(0));
 
@@ -55,8 +67,16 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
 
     @Test
     public void try_to_save_twice_a_user_with_same_username_is_not_possible() throws Exception{
-        User user_1 = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe@me.com");
-        User user_2 = User.withUsernameAndEmail("roger_lamothe", "roger.lamothe2@me.com");
+        User user_1 = User.withUsernameEmailAndLocales(
+                "roger_lamothe",
+                "roger.lamothe@me.com",
+                ""
+        );
+        User user_2 = User.withUsernameEmailAndLocales(
+                "roger_lamothe",
+                "roger.lamothe2@me.com",
+                ""
+        );
 
         assertThat(users().size(), is(0));
 
@@ -72,7 +92,11 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
 
     @Test
     public void user_fields_are_well_saved() {
-        User user = User.withUsernameAndEmail("roger_lamothe", "roger@me.com")
+        User user = User.withUsernameEmailAndLocales(
+                "roger_lamothe",
+                "roger@me.com",
+                ""
+        )
                 .password("secret");
         userRepository.save(user);
 
@@ -133,7 +157,11 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
     }
 
     private User createAUser(){
-        User user = User.withUsernameAndEmail("a_user", "a_user@triple_brain.org");
+        User user = User.withUsernameEmailAndLocales(
+                "a_user",
+                "a_user@triple_brain.org",
+                ""
+        );
         return user;
     }
     
