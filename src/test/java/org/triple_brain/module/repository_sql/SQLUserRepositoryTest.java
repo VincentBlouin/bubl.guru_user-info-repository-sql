@@ -31,7 +31,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         User user = User.withUsernameEmailAndLocales(
                 "roger_lamothe",
                 "roger.lamothe@me.com",
-                ""
+                "[fr]"
         ).password("patate");
         userRepository.save(user);
 
@@ -44,12 +44,12 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         User user_1 = User.withUsernameEmailAndLocales(
                 "roger_lamothe",
                 "roger.lamothe@me.com",
-                ""
+                "[fr]"
         );
         User user_2 = User.withUsernameEmailAndLocales(
                 "roger_lamothe_2",
                 "roger.lamothe@me.com",
-                ""
+                "[fr]"
         );
 
         assertThat(users().size(), is(0));
@@ -70,12 +70,12 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         User user_1 = User.withUsernameEmailAndLocales(
                 "roger_lamothe",
                 "roger.lamothe@me.com",
-                ""
+                "[fr]"
         );
         User user_2 = User.withUsernameEmailAndLocales(
                 "roger_lamothe",
                 "roger.lamothe2@me.com",
-                ""
+                "[fr]"
         );
 
         assertThat(users().size(), is(0));
@@ -95,7 +95,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         User user = User.withUsernameEmailAndLocales(
                 "roger_lamothe",
                 "roger@me.com",
-                ""
+                "[fr]"
         )
                 .password("secret");
         userRepository.save(user);
@@ -160,7 +160,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         User user = User.withUsernameEmailAndLocales(
                 "a_user",
                 "a_user@triple_brain.org",
-                ""
+                "[fr]"
         );
         return user;
     }
