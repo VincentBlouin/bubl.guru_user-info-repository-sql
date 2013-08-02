@@ -102,7 +102,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findByEmail(String email) throws NonExistingUserException {
-        String query = "SELECT id as internalId, username, email, locales uuid as id, salt, passwordHash FROM member WHERE email = ?";
+        String query = "SELECT id as internalId, username, email, locales, uuid as id, salt, passwordHash FROM member WHERE email = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, email.trim().toLowerCase());
