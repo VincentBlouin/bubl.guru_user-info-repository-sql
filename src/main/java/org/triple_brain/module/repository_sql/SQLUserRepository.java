@@ -69,7 +69,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findById(String id) throws NonExistingUserException {
-        String query = "SELECT id as internalID, username, email, locales, uuid as id, salt, passwordHash FROM member WHERE uuid = ?";
+        String query = "SELECT uri as internalID, username, email, locales, uuid as uri, salt, passwordHash FROM member WHERE uuid = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, id);
@@ -86,7 +86,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findByUsername(String username) throws NonExistingUserException {
-        String query = "SELECT id as internalId, username, email, locales, uuid as id, salt, passwordHash FROM member WHERE username = ?";
+        String query = "SELECT uri as internalId, username, email, locales, uuid as uri, salt, passwordHash FROM member WHERE username = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, username.trim().toLowerCase());
@@ -102,7 +102,7 @@ public class SQLUserRepository implements UserRepository {
 
     @Override
     public User findByEmail(String email) throws NonExistingUserException {
-        String query = "SELECT id as internalId, username, email, locales, uuid as id, salt, passwordHash FROM member WHERE email = ?";
+        String query = "SELECT uri as internalId, username, email, locales, uuid as uri, salt, passwordHash FROM member WHERE email = ?";
         try {
             PreparedStatement stm = preparedStatement(query);
             stm.setString(1, email.trim().toLowerCase());
@@ -154,7 +154,7 @@ public class SQLUserRepository implements UserRepository {
                     rs.getString("locales")
             );
             setUserInternalId(user, rs.getLong("internalId"));
-            setUUId(user, rs.getString("id"));
+            setUUId(user, rs.getString("uri"));
             setSalt(user, rs.getString("salt"));
             setPasswordHash(user, rs.getString("passwordHash"));
             return user;
