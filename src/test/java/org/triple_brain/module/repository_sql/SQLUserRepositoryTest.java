@@ -25,7 +25,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
 
     @Test
     public void can_save_user() throws Exception{
-        ResultSet resultSet = preparedStatement("SELECT uri, uuid FROM member").executeQuery();
+        ResultSet resultSet = preparedStatement("SELECT id, uuid FROM member").executeQuery();
         assertFalse(resultSet.next());
 
         User user = User.withUsernameEmailAndLocales(
@@ -35,7 +35,7 @@ public class SQLUserRepositoryTest extends AbstractSqlTest{
         ).password("patate");
         userRepository.save(user);
 
-        resultSet = preparedStatement("SELECT uri, uuid FROM member").executeQuery();
+        resultSet = preparedStatement("SELECT id, uuid FROM member").executeQuery();
         assertTrue(resultSet.next());
     }
 

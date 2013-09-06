@@ -42,7 +42,7 @@ public class SQLConnection {
 
     public static void createTables(){
         String query = "CREATE TABLE member (\n" +
-                "    uri           BIGINT    PRIMARY KEY AUTO_INCREMENT,\n" +
+                "    id           BIGINT    PRIMARY KEY AUTO_INCREMENT,\n" +
                 "    creationTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
                 "    updateTime   TIMESTAMP NOT NULL,\n" +
                 "\n" +
