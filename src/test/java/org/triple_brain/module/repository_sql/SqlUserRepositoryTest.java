@@ -18,10 +18,10 @@ import static org.triple_brain.module.repository_sql.SQLConnection.preparedState
 /**
  * Copyright Mozilla Public License 1.1
  */
-public class SQLUserRepositoryTest extends AbstractSqlTest{
+public class SqlUserRepositoryTest extends AbstractSqlTest{
 
     @Inject
-    SQLUserRepository userRepository;
+    SqlUserRepository userRepository;
 
     @Test
     public void can_save_user() throws Exception{

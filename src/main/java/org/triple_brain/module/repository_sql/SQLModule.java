@@ -11,6 +11,6 @@ public class SQLModule extends AbstractModule {
     @Override
     protected void configure() {
         requestStaticInjection(SQLConnection.class);
-        bind(UserRepository.class).to(SQLUserRepository.class);
+        bind(UserRepository.class).to(SqlUserRepository.class);
     }
 }

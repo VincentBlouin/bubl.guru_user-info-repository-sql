@@ -17,7 +17,7 @@ import static org.triple_brain.module.repository_sql.SQLConnection.preparedState
 /**
  * Copyright Mozilla Public License 1.1
  */
-public class SQLUserRepository implements UserRepository {
+public class SqlUserRepository implements UserRepository {
 
     @Override
     public void save(User user) {

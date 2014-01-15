@@ -9,12 +9,12 @@ import javax.sql.DataSource;
 /*
 * Copyright Mozilla Public License 1.1
 */
-public class SQLTestModule extends AbstractModule{
+public class SqlTestModule extends AbstractModule{
 
     @Override
     protected void configure() {
         install(new SQLModule());
-        bind(UserRepository.class).to(SQLUserRepository.class);
+        bind(UserRepository.class).to(SqlUserRepository.class);
         bind(DataSource.class)
                 .annotatedWith(Names.named("nonRdfDb"))
                 .toInstance(new NonRdfH2DataSource());

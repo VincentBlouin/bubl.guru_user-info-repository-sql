@@ -25,7 +25,7 @@ public class AbstractSqlTest implements Module {
 
     @Before
     public final void before() throws SQLException {
-        Injector injector = Guice.createInjector(new SQLTestModule());
+        Injector injector = Guice.createInjector(new SqlTestModule());
         injector.injectMembers(this);
         clearDatabases();
         createTables();
@@ -39,6 +39,6 @@ public class AbstractSqlTest implements Module {
 
     @Override
     public final void configure(Binder binder) {
-        binder.bind(UserRepository.class).to(SQLUserRepository.class);
+        binder.bind(UserRepository.class).to(SqlUserRepository.class);
     }
 }
