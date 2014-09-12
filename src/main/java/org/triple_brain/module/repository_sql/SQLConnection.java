@@ -1,3 +1,7 @@
+/*
+ * Copyright Vincent Blouin under the Mozilla Public License 1.1
+ */
+
 package org.triple_brain.module.repository_sql;
 
 import javax.inject.Inject;
@@ -8,9 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Copyright Mozilla Public License 1.1
- */
 public class SQLConnection {
 
     static Connection connection;

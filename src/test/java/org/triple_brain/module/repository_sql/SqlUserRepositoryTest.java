@@ -1,3 +1,7 @@
+/*
+ * Copyright Vincent Blouin under the Mozilla Public License 1.1
+ */
+
 package org.triple_brain.module.repository_sql;
 
 import org.junit.Test;
@@ -15,9 +19,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static org.triple_brain.module.repository_sql.SQLConnection.preparedStatement;
 
-/**
- * Copyright Mozilla Public License 1.1
- */
 public class SqlUserRepositoryTest extends AbstractSqlTest{
 
     @Inject

@@ -1,11 +1,12 @@
+/*
+ * Copyright Vincent Blouin under the Mozilla Public License 1.1
+ */
+
 package org.triple_brain.module.repository_sql;
 
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
-/*
-* Copyright Mozilla Public License 1.1
-*/
 public class JenaH2DataSource extends JenaFriendlyDataSource {
 
     public JenaH2DataSource(){

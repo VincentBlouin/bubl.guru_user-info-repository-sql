@@ -1,3 +1,7 @@
+/*
+ * Copyright Vincent Blouin under the Mozilla Public License 1.1
+ */
+
 package org.triple_brain.module.repository_sql;
 
 import com.google.inject.Binder;
@@ -13,9 +17,6 @@ import java.sql.SQLException;
 
 import static org.triple_brain.module.repository_sql.SQLConnection.*;
 
-/**
- * Copyright Mozilla Public License 1.1
- */
 public class AbstractSqlTest implements Module {
 
     @BeforeClass

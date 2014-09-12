@@ -1,3 +1,7 @@
+/*
+ * Copyright Vincent Blouin under the Mozilla Public License 1.1
+ */
+
 package org.triple_brain.module.repository_sql;
 
 import com.google.inject.AbstractModule;
@@ -6,9 +10,6 @@ import org.triple_brain.module.repository.user.UserRepository;
 
 import javax.sql.DataSource;
 
-/*
-* Copyright Mozilla Public License 1.1
-*/
 public class SqlTestModule extends AbstractModule{
 
     @Override
