@@ -141,7 +141,7 @@ public class SqlUserRepositoryTest extends AbstractSqlTest{
     }
 
     @Test
-    public void try_to_find_none_existing_user_by_username_throw_and_Exception() {
+    public void try_to_find_non_existing_user_by_username_throws_an_exception() {
         try {
             userRepository.findByUsername("non_existing_user_name");
             fail();
